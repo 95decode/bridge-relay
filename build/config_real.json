@@ -1,0 +1,52 @@
+{
+  "chains": [
+
+    {
+      "name": "Goerli",
+      "type": "ethereum",
+      "id": "2",
+      "endpoint": "https://goerli.infura.io/v3/931620bb7cab4cefa8501a22f5dc11eb",
+      "from": "0xB633FA14EbE4b627C01a72B30C95d1ce206c8f6e",
+      "opts": {
+        "bridge": "0x76B22cFC9FCC54a6D50D9c39C53cE0BDCc90a5D3",
+        "erc20Handler": "0x53aF33959Ea6C84a8B767a9bcfFe2f8c9062D3eb",
+        "erc721Handler": "0x53aF33959Ea6C84a8B767a9bcfFe2f8c9062D3eb",
+        "genericHandler": "0x53aF33959Ea6C84a8B767a9bcfFe2f8c9062D3eb",
+        "http": "true",
+        "startBlock": "7793950"
+      }
+    },
+    {
+      "name": "Baobab",
+      "type": "ethereum",
+      "id": "11",
+      "endpoint": "https://kaikas.baobab.klaytn.net:8651",
+      "from": "0xB633FA14EbE4b627C01a72B30C95d1ce206c8f6e",
+      "opts": {
+        "bridge": "0x1c8c77b39ac45db07ca3b33aea1c1447a568e961",
+        "erc20Handler": "0xa1340ab5589869388813a4d58983f669f5bc6de7",
+        "erc721Handler": "0xa1340ab5589869388813a4d58983f669f5bc6de7",
+        "genericHandler": "0xa1340ab5589869388813a4d58983f669f5bc6de7",
+        "gasLimit": "50000000",
+        "maxGasPrice": "250000000000",
+        "http": "true",
+        "startBlock": "104567219"
+      }
+    },
+    {
+      "name": "Bsctestnet",
+      "type": "ethereum",
+      "id": "97",
+      "endpoint": "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      "from": "0xB633FA14EbE4b627C01a72B30C95d1ce206c8f6e",
+      "opts": {
+        "bridge": "0xb7407725280967f04b4fCe8e47c2Ebf946B37F8d",
+        "erc20Handler": "0xDB64Fc313AD11D42Bae043D4Ab6B4f7e470Dca3c",
+        "erc721Handler": "0xDB64Fc313AD11D42Bae043D4Ab6B4f7e470Dca3c",
+        "genericHandler": "0xDB64Fc313AD11D42Bae043D4Ab6B4f7e470Dca3c",
+        "http": "true",
+        "startBlock": "23826155"
+      }
+    }
+  ]
+}

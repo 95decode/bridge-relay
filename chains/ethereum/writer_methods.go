@@ -11,6 +11,8 @@ import (
 	solsha3 "github.com/miguelmota/go-solidity-sha3"
 
 	utils "hexbridge/shared/ethereum"
+
+	monitoring "hexbridge/utils/monitoring"
 )
 
 // Number of blocks to wait for an finalization event
@@ -380,10 +382,14 @@ func (w *writer) executeProposal(txid string, m msg.Message, depositData []byte,
 				w.log.Info("Submitted proposal execution", "tx", tx.Hash(), "src", m.Source, "dst", m.Destination, "nonce", m.DepositNonce)
 				return
 			} else if err.Error() == ErrNonceTooLow.Error() || err.Error() == ErrTxUnderpriced.Error() {
-				w.log.Error("Nonce too low, will retry")
+				errParam := "Nonce too low, will retry"
+				monitoring.Message(errParam)
+				w.log.Error(errParam)
 				time.Sleep(TxRetryInterval)
 			} else {
-				w.log.Warn("Execution failed, proposal may already be complete", "err", err)
+				errParam := "Execution failed, proposal may already be complete"
+				monitoring.Message(errParam)
+				w.log.Warn(errParam, "err", err)
 				time.Sleep(TxRetryInterval)
 			}
 

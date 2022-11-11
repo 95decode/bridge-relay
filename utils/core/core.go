@@ -1,12 +1,15 @@
 package core
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/ChainSafe/log15"
+
+	monitoring "hexbridge/utils/monitoring"
 )
 
 type Core struct {
@@ -53,9 +56,12 @@ func (c *Core) Start() {
 	// Block here and wait for a signal
 	select {
 	case err := <-c.sysErr:
+		monitoring.Error(err)
 		c.log.Error("FATAL ERROR. Shutting down.", "err", err)
 	case <-sigc:
-		c.log.Warn("Interrupt received, shutting down now.")
+		errParam := "Interrupt received, shutting down now."
+		monitoring.Error(errors.New(errParam))
+		c.log.Warn(errParam)
 	}
 
 	// Signal chains to shutdown

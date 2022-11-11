@@ -5,11 +5,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/ChainSafe/log15"
-	eth "github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	ethcommon "github.com/ethereum/go-ethereum/common"
 	"hexbridge/bindings/Bridge"
 	"hexbridge/bindings/ERC20Handler"
 	"hexbridge/bindings/ERC721Handler"
@@ -20,12 +15,19 @@ import (
 	utils "hexbridge/shared/ethereum"
 	"hexbridge/utils/blockstore"
 	metrics "hexbridge/utils/metrics/types"
+	monitoring "hexbridge/utils/monitoring"
 	"hexbridge/utils/msg"
 	"math/big"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/ChainSafe/log15"
+	eth "github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	ethcommon "github.com/ethereum/go-ethereum/common"
 )
 
 var BlockRetryInterval = time.Second * 5
@@ -113,7 +115,9 @@ func (l *listener) pollBlocks() error {
 
 			latestBlock, err := l.conn.LatestBlock()
 			if err != nil {
-				l.log.Error("Unable to get latest block", "block", currentBlock, "err", err)
+				errParam := "Unable to get latest block"
+				l.log.Error(errParam, "block", currentBlock, "err", err)
+				monitoring.Message(errParam)
 				retry--
 				time.Sleep(BlockRetryInterval)
 				continue
@@ -136,7 +140,9 @@ func (l *listener) pollBlocks() error {
 			// Parse out events
 			txid, err := l.getDepositEventsForBlock(currentBlock)
 			if err != nil {
-				l.log.Error("Failed to get events for block", "block", currentBlock, "err", err)
+				errParam := "Failed to get events for block"
+				l.log.Error(errParam, "block", currentBlock, "err", err)
+				monitoring.Message(errParam)
 
 				if txid != "" {
 					db.Instance.UpdateErrOfDeposit(txid, err.Error())

@@ -19,7 +19,7 @@ import (
 const ExecuteBlockWatchLimit = 100
 
 // Time between retrying a failed tx
-const TxRetryInterval = time.Second * 2
+const TxRetryInterval = time.Second * 10
 
 // Maximum number of tx retries before exiting
 const TxRetryLimit = 10

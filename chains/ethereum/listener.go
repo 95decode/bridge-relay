@@ -30,7 +30,7 @@ import (
 	ethcommon "github.com/ethereum/go-ethereum/common"
 )
 
-var BlockRetryInterval = time.Second * 5
+var BlockRetryInterval = time.Second * 10
 var BlockRetryLimit = 5
 var ErrFatalPolling = errors.New("listener block polling failed")
 

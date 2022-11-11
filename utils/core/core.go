@@ -52,6 +52,7 @@ func (c *Core) Start() {
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, syscall.SIGINT, syscall.SIGTERM)
 	defer signal.Stop(sigc)
+	monitoring.Message("Hexbridge-relay server started successfully.")
 
 	// Block here and wait for a signal
 	select {

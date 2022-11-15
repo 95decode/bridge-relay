@@ -53,6 +53,7 @@ func (c *Core) Start() {
 	signal.Notify(sigc, syscall.SIGINT, syscall.SIGTERM)
 	defer signal.Stop(sigc)
 	monitoring.Message("Hexbridge-relay server started successfully.")
+	defer monitoring.Message("Hexbridge-relay server ended")
 
 	// Block here and wait for a signal
 	select {
@@ -60,7 +61,7 @@ func (c *Core) Start() {
 		monitoring.Error(err)
 		c.log.Error("FATAL ERROR. Shutting down.", "err", err)
 	case <-sigc:
-		errParam := "Interrupt received, shutting down now."
+		errParam := "interrupt received, shutting down now"
 		monitoring.Error(errors.New(errParam))
 		c.log.Warn(errParam)
 	}

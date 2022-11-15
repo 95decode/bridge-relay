@@ -384,15 +384,21 @@ func (w *writer) executeProposal(txid string, m msg.Message, depositData []byte,
 				return
 			} else if err.Error() == ErrNonceTooLow.Error() || err.Error() == ErrTxUnderpriced.Error() {
 				errParam := []string{"Nonce too low, will retry", w.cfg.name}
-				errMsg := strings.Join(errParam, " - ")
+				if TxRetryLimit == 8 {
+					errMsg := strings.Join(errParam, " - ")
+					monitoring.Message(errMsg)
+				}
+
 				w.log.Error(errParam[0])
-				monitoring.Message(errMsg)
 				time.Sleep(TxRetryInterval)
 			} else {
 				errParam := []string{"Execution failed, proposal may already be complete", w.cfg.name}
-				errMsg := strings.Join(errParam, " - ")
+				if TxRetryLimit == 8 {
+					errMsg := strings.Join(errParam, " - ")
+					monitoring.Message(errMsg)
+				}
+
 				w.log.Warn(errParam[0], "err", err)
-				monitoring.Message(errMsg)
 				time.Sleep(TxRetryInterval)
 			}
 

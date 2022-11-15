@@ -115,9 +115,10 @@ func (l *listener) pollBlocks() error {
 
 			latestBlock, err := l.conn.LatestBlock()
 			if err != nil {
-				errParam := "Unable to get latest block"
-				l.log.Error(errParam, "block", currentBlock, "err", err)
-				monitoring.Message(errParam)
+				errParam := []string{"Unable to get latest block", l.cfg.name}
+				errMsg := strings.Join(errParam, " - ")
+				l.log.Error(errParam[0], "block", currentBlock, "err", err)
+				monitoring.Message(errMsg)
 				retry--
 				time.Sleep(BlockRetryInterval)
 				continue
@@ -140,9 +141,10 @@ func (l *listener) pollBlocks() error {
 			// Parse out events
 			txid, err := l.getDepositEventsForBlock(currentBlock)
 			if err != nil {
-				errParam := "Failed to get events for block"
-				l.log.Error(errParam, "block", currentBlock, "err", err)
-				monitoring.Message(errParam)
+				errParam := []string{"Failed to get events for block", l.cfg.name}
+				errMsg := strings.Join(errParam, " - ")
+				l.log.Error(errParam[0], "block", currentBlock, "err", err)
+				monitoring.Message(errMsg)
 
 				if txid != "" {
 					db.Instance.UpdateErrOfDeposit(txid, err.Error())
